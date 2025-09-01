@@ -1,0 +1,97 @@
+[package]
+name = "xillen-zero-day-hunter"
+version = "1.0.0"
+edition = "2021"
+authors = ["@Bengamin_Button"]
+description = "Advanced zero-day vulnerability discovery and exploitation framework"
+license = "MIT"
+repository = "https://github.com/BengaminButton/xillen-zero-day-hunter"
+keywords = ["security", "vulnerability", "exploitation", "fuzzing", "reverse-engineering"]
+categories = ["security", "development"]
+
+[dependencies]
+clap = { version = "4.0", features = ["derive"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1.0", features = ["full"] }
+anyhow = "1.0"
+thiserror = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+hex = "0.4"
+base64 = "0.21"
+sha2 = "0.10"
+md5 = "0.7"
+aes = "0.8"
+aes-gcm = "0.10"
+chacha20 = "0.9"
+chacha20poly1305 = "0.10"
+des = "0.8"
+blowfish = "0.9"
+rand = "0.8"
+rayon = "1.7"
+crossbeam = "0.8"
+memmap2 = "0.9"
+nix = "0.26"
+libc = "0.2"
+winapi = { version = "0.3", features = ["winbase", "memoryapi", "psapi", "processthreadsapi", "handleapi", "tlhelp32"] }
+pe = "0.3"
+elf = "0.7"
+mach = "0.3"
+uuid = { version = "1.0", features = ["v4"] }
+colored = "2.0"
+indicatif = "0.17"
+console = "0.15"
+tracing = "0.1"
+tracing-subscriber = "0.3"
+futures = "0.3"
+async-trait = "0.1"
+bytes = "1.0"
+tokio-util = { version = "0.7", features = ["codec"] }
+nom = "7.1"
+regex = "1.0"
+walkdir = "2.3"
+tempfile = "3.0"
+reqwest = { version = "0.11", features = ["json"] }
+url = "2.0"
+ipnetwork = "0.20"
+pnet = "0.33"
+pcap = "1.0"
+socket2 = "0.5"
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = ["winbase", "memoryapi", "psapi", "processthreadsapi", "handleapi", "tlhelp32"] }
+
+[target.'cfg(unix)'.dependencies]
+nix = "0.26"
+libc = "0.2"
+
+[target.'cfg(target_os = "linux")'.dependencies]
+nix = "0.26"
+
+[target.'cfg(target_os = "macos")'.dependencies]
+mach = "0.3"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
+
+[[bin]]
+name = "xillen-zero-day-hunter"
+path = "src/main.rs"
+
+[features]
+default = ["full"]
+full = ["encryption", "compression", "gui"]
+encryption = ["aes", "aes-gcm", "chacha20", "chacha20poly1305", "des", "blowfish"]
+compression = ["zstd", "lz4"]
+gui = ["eframe", "egui"]
+
+[dev-dependencies]
+criterion = "0.4"
+tempfile = "3.0"
